@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Web-site Analyzer | Oystr test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="row" style="margin-top: 50px; margin-left: 10px">
+	<h2>Análise de URL</h2>
+</div>
+<div class="row" style="margin-top: 50px; margin-left: 10px">
+	<input type="text" id="url" placeholder="Insira a URL" class="form-control" style="width:40%" onfocus="$(this).val('http://');" onpaste="$(this).val('');"/>
+	<button class="button btn btn-primary" style="margin-left: 3px">Analizar URL</button>
+	<div class="spinner-border" role="status" style="margin-left:10px;display:none">
+		<span class="sr-only">Loading...</span>
+	</div>
+</div>
+<br/>
+<div class="row" style="margin-top: 10px; margin-left: 10px">
+  <div class="col-sm-12">
+	<p id="title"><b>Título da Página:</b></p>
+  </div>
+  <div class="col-sm-12">
+	<p id="external"><b>Número de Links Externos:</b></p>
+  </div>
+  <div class="col-sm-12">
+	<p id="internal"><b>Número de Links Internos:</b></p>
+  </div>
+</div>
+<div class="container">
+	<hr>
+		<div class="text-center center-block">
+			<p class="txt-railway"> Emmanuel Vinicius - (41) 99757-8500 </p>
+            <br />
+	        <a href="https://www.linkedin.com/in/emmanuel-vinicius-de-mello-pereira-54279b84/"><i id="social-gp" class="fa fa-linkedin-square fa-3x social"></i></a>
+	        <a href="mailto:emmanuelvmp@hotmail.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+		</div>
+    <hr>
+</div>
+<script type="text/javascript">
+	$(".button").click(function(){
+	
+		$('.spinner-border').show();
+		
+		var $input = $('#url').val();
+		var $data =  {'link': $input};
+		
+		$.post('call-url.php', $data, function (response) {
+            var $parse = JSON.parse(response);
+			$('#title').empty().html('<b>Título da Página: </b>' + $parse.title);
+			$('#external').empty().append('<b>Número de Links Externos:</b> ' + $parse.external);
+			$('#internal').empty().append('<b>Número de Links Internos:</b> ' + $parse.internal);
+			$('.spinner-border').hide();
+        });
+	});
+
+</script>
+</body>
+</html>
